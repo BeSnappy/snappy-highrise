@@ -60,14 +60,15 @@ class App extends BaseApp implements ContactLookupHandler, ContactCreatedHandler
 	 */
 	public function handleContactLookup(array $contact)
 	{
-		$root = 'https://'.$this->config['account'].'.highrisehq.com';
+		$root = $this->getRootUrl();
 
-		$response = Request::get($root.'/people/search.json?criteria[email]='.$contact['value'])
-												->authenticateWith($this->config['token'], 'x')
-												->expectsXml()
-												->send();
+		$request = $this->getClient()->get($root.'/people/search.json?criteria[email]='.$contact['value']);
 
-		$payload = simplexml_load_string($response->raw_body);
+		$request->setAuth($this->config['token'], 'x');
+
+		$response = $request->send();
+
+		$payload = simplexml_load_string((string) $response->getBody());
 
 		return $this->render(__DIR__.'/highrise.html', compact('payload'));
 	}
@@ -81,7 +82,43 @@ class App extends BaseApp implements ContactLookupHandler, ContactCreatedHandler
 	 */
 	public function handleContactCreated(array $ticket, array $contact)
 	{
-		//
+		return;
+
+		if (isset($contact['first_name']) and isset($contact['last_name']))
+		{
+			$body = $this->render(__DIR__.'/contact.xml', compact('contact'));
+
+			$request = $this->getClient()->post($this->getRootUrl().'/people.xml', array(), $body);
+
+			try
+			{
+				$request->send();
+			}
+			catch (\Exception $e)
+			{
+				//
+			}
+		}
+	}
+
+	/**
+	 * Get the root URL of the Highrise service.
+	 *
+	 * @return string
+	 */
+	public function getRootUrl()
+	{
+		return 'https://'.$this->config['account'].'.highrisehq.com';
+	}
+
+	/**
+	 * Get a new Guzzle HTTP client.
+	 *
+	 * @return \Guzzle\Http\Client
+	 */
+	public function getClient()
+	{
+		return new \Guzzle\Http\Client;
 	}
 
 }

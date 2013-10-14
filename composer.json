@@ -1,15 +1,15 @@
 {
-    "name": "vendor/project",
-    "description": "",
+    "name": "snappy/highrise",
+    "description": "Highrise integration for Snappy.",
     "authors": [
         {
-            "name": "Your Name",
-            "email": "your@email.com"
+            "name": "UserScape, Inc.",
+            "email": "it@userscape.com"
         }
     ],
     "require": {
         "php": ">=5.3.0",
-        "nategood/httpful": "dev-master",
+        "guzzle/guzzle": "3.*",
         "snappy/app-support": "dev-master"
     },
     "autoload": {
