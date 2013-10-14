@@ -1,7 +1,9 @@
-<?php namespace Snappy\Apps\HighRise;
+<?php namespace Snappy\Apps\Highrise;
 
+use Httpful\Request;
 use Snappy\Apps\App as BaseApp;
-use Guzzle\Http\Client;
+use Snappy\Apps\ContactLookupHandler;
+use Snappy\Apps\ContactCreatedHandler;
 
 class App extends BaseApp implements ContactLookupHandler, ContactCreatedHandler {
 
@@ -10,7 +12,7 @@ class App extends BaseApp implements ContactLookupHandler, ContactCreatedHandler
 	 *
 	 * @var string
 	 */
-	public $name = 'HighRise';
+	public $name = 'Highrise';
 
 	/**
 	 * The application description.
@@ -58,10 +60,28 @@ class App extends BaseApp implements ContactLookupHandler, ContactCreatedHandler
 	 */
 	public function handleContactLookup(array $contact)
 	{
-		$client = new Client('https://'.$this->config['account'].'.highrisehq.com');
-		$request = $client->get('/people');
-		$request->setAuth($this->config['token'], 'x');
-		return $request->getUrl();
+		$root = 'https://'.$this->config['account'].'.highrisehq.com';
+
+		$response = Request::get($root.'/people/search.json?criteria[email]='.$contact['value'])
+												->authenticateWith($this->config['token'], 'x')
+												->expectsXml()
+												->send();
+
+		$payload = simplexml_load_string($response->raw_body);
+
+		return $this->render(__DIR__.'/highrise.html', compact('payload'));
+	}
+
+	/**
+	 * Handle the creation of a new contact.
+	 *
+	 * @param  array  $ticket
+	 * @param  array  $contact
+	 * @return void
+	 */
+	public function handleContactCreated(array $ticket, array $contact)
+	{
+		//
 	}
 
 }
