@@ -9,7 +9,7 @@
     ],
     "require": {
         "php": ">=5.3.0",
-        "nategood/httpful": "dev-master",
+        "guzzle/guzzle": "3.*",
         "snappy/app-support": "dev-master"
     },
     "autoload": {

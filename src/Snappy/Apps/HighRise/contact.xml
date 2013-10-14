@@ -1,0 +1,11 @@
+<person>
+	<first-name><?php echo $contact['first_name']; ?></first-name>
+	<last-name><?php echo $contact['last_name']; ?></last-name>
+	<contact-data>
+		<email-addresses>
+			<email-address>
+				<address><?php echo $contact['value']; ?></address>
+			</email-address>
+		</email-addresses>
+	</contact-data>
+</person>
