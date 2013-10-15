@@ -62,15 +62,26 @@ class App extends BaseApp implements ContactLookupHandler, ContactCreatedHandler
 	{
 		$root = $this->getRootUrl();
 
-		$request = $this->getClient()->get($root.'/people/search.json?criteria[email]='.$contact['value']);
+		$payload = $this->lookupContact($contact['value']);
+
+		return $this->render(__DIR__.'/highrise.html', compact('payload'));
+	}
+
+	/**
+	 * Look-up a contact on Highrise.
+	 *
+	 * @param  string  $value
+	 * @return array
+	 */
+	protected function lookupContact($value)
+	{
+		$request = $this->getClient()->get($root.'/people/search.json?criteria[email]='.$value);
 
 		$request->setAuth($this->config['token'], 'x');
 
 		$response = $request->send();
 
-		$payload = simplexml_load_string((string) $response->getBody());
-
-		return $this->render(__DIR__.'/highrise.html', compact('payload'));
+		return simplexml_load_string((string) $response->getBody());
 	}
 
 	/**
@@ -82,21 +93,22 @@ class App extends BaseApp implements ContactLookupHandler, ContactCreatedHandler
 	 */
 	public function handleContactCreated(array $ticket, array $contact)
 	{
-		return;
-
 		if (isset($contact['first_name']) and isset($contact['last_name']))
 		{
-			$body = $this->render(__DIR__.'/contact.xml', compact('contact'));
-
-			$request = $this->getClient()->post($this->getRootUrl().'/people.xml', array(), $body);
-
-			try
+			if (is_null($this->lookupContact($contact['value'])))
 			{
-				$request->send();
-			}
-			catch (\Exception $e)
-			{
-				//
+				$body = $this->render(__DIR__.'/contact.xml', compact('contact'));
+
+				$request = $this->getClient()->post($this->getRootUrl().'/people.xml', array(), $body);
+
+				try
+				{
+					$request->send();
+				}
+				catch (\Exception $e)
+				{
+					//
+				}
 			}
 		}
 	}
