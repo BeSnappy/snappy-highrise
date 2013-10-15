@@ -107,7 +107,7 @@ class App extends BaseApp implements ContactLookupHandler, ContactCreatedHandler
 		{
 			$contacts = $this->lookupContact($contact['value']);
 
-			if (isset($contacts->person))
+			if ( ! isset($contacts->person))
 			{
 				$body = $this->render(__DIR__.'/contact.xml', compact('contact'));
 
@@ -119,7 +119,7 @@ class App extends BaseApp implements ContactLookupHandler, ContactCreatedHandler
 				}
 				catch (\Exception $e)
 				{
-					//
+					call_user_func(\App::make('bugsnagger'), $e);
 				}
 			}
 		}
