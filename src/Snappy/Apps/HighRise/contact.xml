@@ -5,6 +5,7 @@
 		<email-addresses>
 			<email-address>
 				<address><?php echo $contact['value']; ?></address>
+				<location>Work</location>
 			</email-address>
 		</email-addresses>
 	</contact-data>
