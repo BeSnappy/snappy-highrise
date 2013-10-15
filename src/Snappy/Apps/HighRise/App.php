@@ -105,7 +105,7 @@ class App extends BaseApp implements ContactLookupHandler, ContactCreatedHandler
 	{
 		if (isset($contact['first_name']) and isset($contact['last_name']))
 		{
-			if (is_null($this->lookupContact($contact['value'])))
+			if (count($this->lookupContact($contact['value'])) == 0)
 			{
 				$body = $this->render(__DIR__.'/contact.xml', compact('contact'));
 
