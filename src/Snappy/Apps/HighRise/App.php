@@ -19,14 +19,17 @@ class App extends BaseApp implements ContactLookupHandler, ContactCreatedHandler
 	 *
 	 * @var string
 	 */
-	public $description = 'Application Description';
+	public $description = 'The Highrise integration allows you to create and search for contacts';
 
 	/**
 	 * Any notes about this application
 	 *
 	 * @var string
 	 */
-	public $notes = '';
+	public $notes = '
+		<p>Your Highrise api token can be found by logging into your account and then visiting Account &amp; Settings -> My Info -> Api Settings.</p>
+		<p>The account is the subdomain section of your account. For example if your highrise account is "mycompany.highrisehq.com" then the account is "mycompany".</p>
+	';
 
 	/**
 	 * The application's icon filename.
@@ -55,8 +58,8 @@ class App extends BaseApp implements ContactLookupHandler, ContactCreatedHandler
 	 * @var array
 	 */
 	public $settings = array(
-		array('name' => 'token', 'type' => 'text', 'help' => 'Enter your HighRise API Token'),
-		array('name' => 'account', 'type' => 'text', 'help' => 'Enter your HighRise Account Name'),
+		array('name' => 'token', 'type' => 'text', 'help' => 'Enter your Highrise API Token'),
+		array('name' => 'account', 'type' => 'text', 'help' => 'Enter your Highrise Account Name'),
 	);
 
 	/**
