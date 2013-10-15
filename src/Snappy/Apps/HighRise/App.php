@@ -70,8 +70,6 @@ class App extends BaseApp implements ContactLookupHandler, ContactCreatedHandler
 	 */
 	public function handleContactLookup(array $contact)
 	{
-		$root = $this->getRootUrl();
-
 		$payload = $this->lookupContact($contact['value']);
 
 		return $this->render(__DIR__.'/highrise.html', compact('payload'));
@@ -85,6 +83,8 @@ class App extends BaseApp implements ContactLookupHandler, ContactCreatedHandler
 	 */
 	protected function lookupContact($value)
 	{
+		$root = $this->getRootUrl();
+
 		$request = $this->getClient()->get($root.'/people/search.json?criteria[email]='.$value);
 
 		$request->setAuth($this->config['token'], 'x');
