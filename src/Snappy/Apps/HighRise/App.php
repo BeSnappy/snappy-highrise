@@ -113,6 +113,8 @@ class App extends BaseApp implements ContactLookupHandler, ContactCreatedHandler
 
 				$request = $this->getClient()->post($this->getRootUrl().'/people.xml', array(), $body);
 
+				$request->setAuth($this->config['token'], 'x');
+
 				try
 				{
 					$request->send();
