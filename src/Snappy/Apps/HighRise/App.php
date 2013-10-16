@@ -60,6 +60,7 @@ class App extends BaseApp implements ContactLookupHandler, ContactCreatedHandler
 	public $settings = array(
 		array('name' => 'token', 'type' => 'text', 'help' => 'Enter your Highrise API Token'),
 		array('name' => 'account', 'type' => 'text', 'help' => 'Enter your Highrise Account Name'),
+		array('name' => 'create_contacts', 'label' => 'Add New Contacts', 'type' => 'checkbox', 'help' => 'Automatically add new contacts to Highrise?'),
 	);
 
 	/**
@@ -103,7 +104,7 @@ class App extends BaseApp implements ContactLookupHandler, ContactCreatedHandler
 	 */
 	public function handleContactCreated(array $ticket, array $contact)
 	{
-		if (isset($contact['first_name']) and isset($contact['last_name']))
+		if ($this->config['create_contacts'] and isset($contact['first_name']) and isset($contact['last_name']))
 		{
 			$contacts = $this->lookupContact($contact['value']);
 
