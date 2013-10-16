@@ -109,18 +109,9 @@ class App extends BaseApp implements ContactLookupHandler, ContactCreatedHandler
 
 			if ( ! isset($contacts->person))
 			{
-				$highrise = new \Highrise\HighriseAPI;
-				$highrise->setAccount('userscape3');
-				$highrise->setToken($this->config['token']);
-				$person = new \Highrise\Resources\HighrisePerson($highrise);
-				$person->setFirstName($contact['first_name']);
-				$person->setLastName($contact['last_name']);
-				$person->addEmailAddress($contact['value']);
-				$person->save();
-				/*
 				$body = $this->render(__DIR__.'/contact.xml', compact('contact'));
 
-				$request = $this->getClient()->post($this->getRootUrl().'/people.xml', array(), $body);
+				$request = $this->getClient()->post($this->getRootUrl().'/people.xml', array('Content-Type' => 'application/xml'), $body);
 
 				$request->setAuth($this->config['token'], 'x');
 
@@ -132,7 +123,6 @@ class App extends BaseApp implements ContactLookupHandler, ContactCreatedHandler
 				{
 					call_user_func(\App::make('bugsnagger'), $e);
 				}
-				*/
 			}
 		}
 	}
