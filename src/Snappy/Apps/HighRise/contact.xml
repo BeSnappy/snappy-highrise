@@ -2,7 +2,7 @@
 	<first-name><?php echo $contact['first_name']; ?></first-name>
 	<last-name><?php echo $contact['last_name']; ?></last-name>
 	<title></title>
-	<company-name></company-name>
+	<company-name>Snappy</company-name>
 	<background></background>
 	<contact-data>
 		<email-addresses>
