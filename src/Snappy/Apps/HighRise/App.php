@@ -110,6 +110,7 @@ class App extends BaseApp implements ContactLookupHandler, ContactCreatedHandler
 			if ( ! isset($contacts->person))
 			{
 				$highrise = new \Highrise\HighriseAPI;
+				$highrise->setAccount('userscape3');
 				$highrise->setToken($this->config['token']);
 				$person = new \Highrise\Resources\HighrisePerson($highrise);
 				$person->setFirstName($contact['first_name']);
