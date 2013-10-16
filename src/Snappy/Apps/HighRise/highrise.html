@@ -1,35 +1,41 @@
 <table>
-  <?php foreach ($payload as $person): ?>
+  <?php if (! $payload->person): ?>
     <tr>
-      <td class="contact-info">
-        <img src="<?php echo $person->{'avatar-url'}; ?>" class="img-polaroid">
-        <h4><?php echo $person->{'first-name'}; ?> <?php echo $person->{'last-name'}; ?></h4>
-
-        <?php if ($person->{'title'} != '' or $person->{'company-name'} != ''): ?>
-          <div class="sub"><?php echo $person->{'title'}; ?> - <?php echo $person->{'company-name'}; ?></div>
-        <?php endif; ?>
-
-        <?php if ($person->background != ''): ?>
-          <p><?php echo $person->background; ?></p>
-        <?php endif; ?>
-
-        <ul class="unstyled">
-          <?php if ($person->{'contact-data'}->{'email-addresses'}->{'email-address'}[0]): ?>
-            <li><strong>Email:</strong> <?php echo $person->{'contact-data'}->{'email-addresses'}->{'email-address'}[0]->address; ?></li>
-          <?php endif; ?>
-          <?php if ($person->{'contact-data'}->{'phone-numbers'}->{'phone-number'}[0]): ?>
-            <li><strong>Phone:</strong> <?php echo $person->{'contact-data'}->{'phone-numbers'}->{'phone-number'}[0]->number; ?></li>
-          <?php endif; ?>
-          <?php if ($person->{'contact-data'}->{'twitter-accounts'}[0]->{'twitter-account'}): ?>
-            <li><strong>Twitter:</strong>
-              <a href="<?php echo $person->{'contact-data'}->{'twitter-accounts'}[0]->{'twitter-account'}->url ?>">
-                @<?php echo $person->{'contact-data'}->{'twitter-accounts'}[0]->{'twitter-account'}->username ?>
-              </a>
-            </li>
-          <?php endif; ?>
-        </ul>
-        <hr>
-      </td>
+        <td class="contact-info"><p>No contacts found.</td>
     </tr>
-  <?php endforeach; ?>
+  <?php else: ?>
+    <?php foreach ($payload as $person): ?>
+      <tr>
+        <td class="contact-info">
+          <img src="<?php echo $person->{'avatar-url'}; ?>" class="img-polaroid">
+          <h4><?php echo $person->{'first-name'}; ?> <?php echo $person->{'last-name'}; ?></h4>
+
+          <?php if ($person->{'title'} != '' or $person->{'company-name'} != ''): ?>
+            <div class="sub"><?php echo $person->{'title'}; ?> - <?php echo $person->{'company-name'}; ?></div>
+          <?php endif; ?>
+
+          <?php if ($person->background != ''): ?>
+            <p><?php echo $person->background; ?></p>
+          <?php endif; ?>
+
+          <ul class="unstyled">
+            <?php if ($person->{'contact-data'}->{'email-addresses'}->{'email-address'}[0]): ?>
+              <li><strong>Email:</strong> <?php echo $person->{'contact-data'}->{'email-addresses'}->{'email-address'}[0]->address; ?></li>
+            <?php endif; ?>
+            <?php if ($person->{'contact-data'}->{'phone-numbers'}->{'phone-number'}[0]): ?>
+              <li><strong>Phone:</strong> <?php echo $person->{'contact-data'}->{'phone-numbers'}->{'phone-number'}[0]->number; ?></li>
+            <?php endif; ?>
+            <?php if ($person->{'contact-data'}->{'twitter-accounts'}[0]->{'twitter-account'}): ?>
+              <li><strong>Twitter:</strong>
+                <a href="<?php echo $person->{'contact-data'}->{'twitter-accounts'}[0]->{'twitter-account'}->url ?>">
+                  @<?php echo $person->{'contact-data'}->{'twitter-accounts'}[0]->{'twitter-account'}->username ?>
+                </a>
+              </li>
+            <?php endif; ?>
+          </ul>
+          <hr>
+        </td>
+      </tr>
+    <?php endforeach; ?>
+  <?php endif; ?>
 </table>
