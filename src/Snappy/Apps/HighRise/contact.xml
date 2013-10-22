@@ -1,10 +1,6 @@
 <person>
 	<first-name><?php echo $contact['first_name']; ?></first-name>
 	<last-name><?php echo $contact['last_name']; ?></last-name>
-	<title></title>
-	<company-name>Snappy</company-name>
-	<background></background>
-	<linkedin_url></linkedin_url>
 	<contact-data>
 		<email-addresses>
 			<email-address>

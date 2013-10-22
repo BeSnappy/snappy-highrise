@@ -60,6 +60,7 @@ class App extends BaseApp implements ContactLookupHandler, ContactCreatedHandler
 	public $settings = array(
 		array('name' => 'token', 'type' => 'text', 'help' => 'Enter your Highrise API Token', 'validate' => 'required'),
 		array('name' => 'account', 'type' => 'text', 'help' => 'Enter your Highrise Account Name', 'validate' => 'required'),
+		array('name' => 'create_contacts', 'label' => 'Add New Contacts', 'type' => 'checkbox', 'help' => 'Automatically add new contacts to Highrise?'),
 	);
 
 	/**
@@ -103,23 +104,15 @@ class App extends BaseApp implements ContactLookupHandler, ContactCreatedHandler
 	 */
 	public function handleContactCreated(array $ticket, array $contact)
 	{
-		if (isset($contact['first_name']) and isset($contact['last_name']))
+		if ($this->config['create_contacts'] and isset($contact['first_name']) and isset($contact['last_name']))
 		{
 			$contacts = $this->lookupContact($contact['value']);
 
 			if ( ! isset($contacts->person))
 			{
-				$highrise = new \Highrise\HighriseAPI;
-				$highrise->setToken($this->config['token']);
-				$person = new \Highrise\Resources\HighrisePerson($highrise);
-				$person->setFirstName($contact['first_name']);
-				$person->setLastName($contact['last_name']);
-				$person->addEmailAddress($contact['value']);
-				$person->save();
-				/*
 				$body = $this->render(__DIR__.'/contact.xml', compact('contact'));
 
-				$request = $this->getClient()->post($this->getRootUrl().'/people.xml', array(), $body);
+				$request = $this->getClient()->post($this->getRootUrl().'/people.xml', array('Content-Type' => 'application/xml'), $body);
 
 				$request->setAuth($this->config['token'], 'x');
 
@@ -131,7 +124,6 @@ class App extends BaseApp implements ContactLookupHandler, ContactCreatedHandler
 				{
 					call_user_func(\App::make('bugsnagger'), $e);
 				}
-				*/
 			}
 		}
 	}
