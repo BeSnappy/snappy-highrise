@@ -39,6 +39,13 @@ class App extends BaseApp implements ContactLookupHandler, ContactCreatedHandler
 	public $icon = 'highrise.png';
 
 	/**
+	 * The application service's main website.
+	 *
+	 * @var string
+	 */
+	public $website = 'https://highrisehq.com';
+
+	/**
 	 * The application author name.
 	 *
 	 * @var string
