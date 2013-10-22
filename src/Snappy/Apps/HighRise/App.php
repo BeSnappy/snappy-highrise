@@ -58,8 +58,8 @@ class App extends BaseApp implements ContactLookupHandler, ContactCreatedHandler
 	 * @var array
 	 */
 	public $settings = array(
-		array('name' => 'token', 'type' => 'text', 'help' => 'Enter your Highrise API Token'),
-		array('name' => 'account', 'type' => 'text', 'help' => 'Enter your Highrise Account Name'),
+		array('name' => 'token', 'type' => 'text', 'help' => 'Enter your Highrise API Token', 'validate' => 'required'),
+		array('name' => 'account', 'type' => 'text', 'help' => 'Enter your Highrise Account Name', 'validate' => 'required'),
 	);
 
 	/**
